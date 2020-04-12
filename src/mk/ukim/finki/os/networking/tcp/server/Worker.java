@@ -5,6 +5,7 @@ import java.net.Socket;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 // Pretstavuva obrabotuvach na edno baranje
 // Za sekoe korisnichko baranje kje imame po eden ovakov Worker
@@ -56,8 +57,14 @@ public class Worker extends Thread {
             // Vo ovoj moment, go prochitavme celoto baranje od korisnikot
             // i istoto go imame vo `request` promenlivata
 
+            String clientName = Optional
+                    .ofNullable(request.headers.get("USER"))
+                    // Ova e standarden Header vo HTTP za tipot na klient shto pobaruva
+                    // Voobichaeno toa e vashiot prebaruvach (Firefox, Chrome, ...)
+                    .orElse(request.headers.get("User-Agent"));
+
             // Vrakjame na korisnikot
-            bw.write("Hello, " + request.headers.get("USER") + "!\n");
+            bw.write("Hello, " + clientName + "!\n");
             bw.write("You requested to " + request.verb + " the resource: " + request.uri + "\n");
             bw.write("\n"); // So eden prazen red kje mu kazheme na korisnikot deka zavrshivme so odgovorot
             bw.flush(); // Mora da napravime flush, za da go ispratime baferiraniot tekst
