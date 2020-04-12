@@ -64,6 +64,7 @@ public class Worker extends Thread {
                     .orElse(request.headers.get("User-Agent"));
 
             // Vrakjame na korisnikot
+            bw.write("HTTP/1.1 200 OK\n\n"); // za Chrome da ne se buni
             bw.write("Hello, " + clientName + "!\n");
             bw.write("You requested to " + request.verb + " the resource: " + request.uri + "\n");
             bw.write("\n"); // So eden prazen red kje mu kazheme na korisnikot deka zavrshivme so odgovorot
