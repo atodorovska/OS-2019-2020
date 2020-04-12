@@ -24,7 +24,7 @@ public class Client extends Thread {
             BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
 
             // Go prakjame nasheto baranje do serverot
-            bw.write((clientId % 2 == 0 ? "GET" : "POST") + " /Movies/" + clientId + "\n");
+            bw.write((clientId % 2 == 0 ? "GET" : "POST") + " /Movies/" + clientId + " HTTP/1.1\n");
             bw.write("USER: Sasho Najdov\n");
             bw.write("\n"); // so eden prazen red kje mu kazheme na serverot deka zavrshime so baranjeto
 

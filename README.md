@@ -35,7 +35,7 @@ $ telnet localhost 8000
 Trying ::1...
 Connected to localhost.
 Escape character is '^]'.
-POST /movies/shawshank_redemption
+POST /movies/shawshank_redemption HTTP/1.1
 USER: Sasho
 Content-Length: 15
 Movie-Name: The Shawshank Redemption
@@ -45,7 +45,7 @@ Here should be the contents of the movie. But from the Content-Length header, th
 HTTP/1.1 200 OK
 
 Hello, Sasho!
-You requested to POST the resource: 
+You requested to POST the resource: /movies/shawshank_redemption
 You sent me: Here should be 
 
 Connection closed by foreign host.

@@ -100,6 +100,7 @@ public class Worker extends Thread {
 
         public Request(String[] line) {
             this.verb = line[0];
+            System.out.println(Arrays.asList(line));
             this.uri = String.join(" ", Arrays.copyOfRange(line,1, line.length - 1));
             this.version = line[line.length - 1];
             this.headers = new HashMap<>();
