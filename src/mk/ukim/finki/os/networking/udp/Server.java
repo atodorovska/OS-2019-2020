@@ -22,7 +22,7 @@ public class Server extends Thread {
                 System.out.println("SERVER: <<< " + new String(Arrays.copyOfRange(packet.getData(), 0, packet.getLength())));
 
                 // Vrati mu ja na korisnikot negovata IP adresa
-                String message = "Hello there! Your address is " + packet.getAddress() + ":" + packet.getPort();
+                String message = "Hello there! Your address is " + packet.getAddress() + ":" + packet.getPort() + "\n";
                 socket.send(new DatagramPacket(message.getBytes(), message.getBytes().length, packet.getAddress(), packet.getPort()));
             }
         } catch (IOException e) {
