@@ -35,11 +35,18 @@ $ telnet localhost 8000
 Trying ::1...
 Connected to localhost.
 Escape character is '^]'.
-GET /Movies/Groundhog+Day
-USER: Sasho Najdov (snajdov)
+POST /movies/shawshank_redemption
+USER: Sasho
+Content-Length: 15
+Movie-Name: The Shawshank Redemption
+Movie-Year: 1994
 
-Hello, Sasho Najdov (snajdov)!
-You requested to GET the resource: /Movies/Groundhog+Day
+Here should be the contents of the movie. But from the Content-Length header, this will be cut to 15 bytes.
+HTTP/1.1 200 OK
+
+Hello, Sasho!
+You requested to POST the resource: 
+You sent me: Here should be 
 
 Connection closed by foreign host.
 ```

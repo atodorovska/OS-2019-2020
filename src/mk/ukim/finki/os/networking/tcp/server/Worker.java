@@ -49,8 +49,19 @@ public class Worker extends Thread {
             // zavrshuva so eden prazen red
             while (!(line = br.readLine()).equals("")) {
                 System.err.println("Worker[" + this.workerId + "] <<< " + line);
-                String[] parts = line.split(":\\s+");
+                String[] parts = line.split(":\\s+", 2);
                 request.headers.put(parts[0], parts[1]); // parts[0] = NAME, parts[1] = VALUE
+            }
+
+            if (request.verb.equals("POST") && request.headers.get("Content-Length") != null) {
+                StringBuilder sb = new StringBuilder();
+                // Ovoj header kje ni kazhuva kolku bajti ima vo teloto
+                int length = Integer.parseInt(request.headers.get("Content-Length").trim());
+                while (length-- > 0)
+                    sb.append((char)br.read());
+
+                request.body = sb.toString();
+                System.out.println("BODY: " + request.body);
             }
 
 
@@ -67,6 +78,8 @@ public class Worker extends Thread {
             bw.write("HTTP/1.1 200 OK\n\n"); // za Chrome da ne se buni
             bw.write("Hello, " + clientName + "!\n");
             bw.write("You requested to " + request.verb + " the resource: " + request.uri + "\n");
+            if (request.verb.equals("POST") && request.body != null)
+                bw.write("You sent me: " + request.body + "\n");
             bw.write("\n"); // So eden prazen red kje mu kazheme na korisnikot deka zavrshivme so odgovorot
             bw.flush(); // Mora da napravime flush, za da go ispratime baferiraniot tekst
 
@@ -81,11 +94,14 @@ public class Worker extends Thread {
     public static class Request {
         public String verb; // Definira akcija: dali zemam ili prikachuvame neshto na server
         public String uri; // Go identifikva resursot shto sakame da go zememe/prikachime
+        public String version; // Verzija na protokolot
         public Map<String, String> headers; // Niza na header-i, kako dopolnitelni informacii
+        public String body; // Teloto na baranjeto, dokolku saka neshto da prati korisnikot
 
         public Request(String[] line) {
             this.verb = line[0];
-            this.uri = String.join(" ", Arrays.copyOfRange(line,1, line.length));
+            this.uri = String.join(" ", Arrays.copyOfRange(line,1, line.length - 1));
+            this.version = line[line.length - 1];
             this.headers = new HashMap<>();
         }
         // Baranjeto e vo sledniot format:
