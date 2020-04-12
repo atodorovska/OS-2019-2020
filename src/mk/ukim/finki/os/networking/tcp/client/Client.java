@@ -32,11 +32,11 @@ public class Client extends Thread {
             // i site write-ovi do sega bea baferirani
             bw.flush();
 
-            String line = null;
+            String line = "/";
 
             // Ovde kje blokirame se dodeka serverot nema nishto za chitanje
             // Shtom serverot ni prati cela linija, kje ja isprintame ovde
-            while (!(line = br.readLine()).equals(""))
+            while ((line = br.readLine()) != null)
                 System.out.println("Client[" + clientId + "] <<< " + line);
 
             socket.close();
