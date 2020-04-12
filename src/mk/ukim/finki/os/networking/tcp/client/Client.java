@@ -28,13 +28,14 @@ public class Client extends Thread {
             bw.write("USER: Sasho Najdov\n");
             bw.write("\n"); // so eden prazen red kje mu kazheme na serverot deka zavrshime so baranjeto
 
-            // Mora da povikame flush, bidekji koristime
-            // BufferedReader, i site write-ovi do sega bea baferirani
+            // Mora da povikame flush, bidekji koristime BufferedReader,
+            // i site write-ovi do sega bea baferirani
             bw.flush();
 
             String line = null;
 
-            // Ovde kje blokirame se dodeka serverot ne pochne da ni prakja odgovor
+            // Ovde kje blokirame se dodeka serverot nema nishto za chitanje
+            // Shtom serverot ni prati cela linija, kje ja isprintame ovde
             while (!(line = br.readLine()).equals(""))
                 System.out.println("Client[" + clientId + "] <<< " + line);
 
